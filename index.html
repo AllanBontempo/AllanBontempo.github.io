@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allan Bontempo — Software Architect</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#050A14;
+--bg2:#0B1220;
+--bg3:#0F1926;
+--accent:#00D4FF;
+--accent2:#7B2FFF;
+--accent3:#00FFB3;
+--text:#E8EDF5;
+--text2:#8899AA;
+--text3:#4A5A6A;
+--card:#0E1A28;
+--border:rgba(0,212,255,0.12);
+--glow:rgba(0,212,255,0.08);
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-weight:300;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1.2rem 4rem;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(5,10,20,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Montserrat',sans-serif;
+  font-weight:800;font-size:1.1rem;
+  letter-spacing:-0.01em;
+  color:var(--accent);
+}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{
+  color:var(--text2);
+  text-decoration:none;
+  font-size:0.85rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  transition:color 0.3s;
+}
+.nav-links a:hover{color:var(--accent)}
+#hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  padding:8rem 4rem 4rem;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);
+  background-size:60px 60px;
+  animation:gridmove 20s linear infinite;
+}
+@keyframes gridmove{0%{transform:translateY(0)}100%{transform:translateY(60px)}}
+.hero-orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(80px);
+  pointer-events:none;
+}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(0,212,255,0.12),transparent 70%);top:-100px;right:-100px;animation:orb1 8s ease-in-out infinite alternate}
+.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(123,47,255,0.10),transparent 70%);bottom:0;left:-50px;animation:orb2 10s ease-in-out infinite alternate}
+@keyframes orb1{0%{transform:translate(0,0)}100%{transform:translate(-60px,40px)}}
+@keyframes orb2{0%{transform:translate(0,0)}100%{transform:translate(40px,-50px)}}
+.hero-content{position:relative;z-index:1;animation:fadeup 1s ease both}
+.hero-header{display:grid;grid-template-columns:200px 1fr;gap:3rem;align-items:center;margin-bottom:3rem;max-width:900px}
+.hero-avatar{
+  width:200px;height:200px;
+  border-radius:1.5rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  padding:3px;
+  opacity:0;transform:translateY(40px);
+  animation:fadeup 1s 0.2s ease both;
+}
+.hero-avatar-inner{
+  width:100%;height:100%;
+  background:var(--bg);
+  border-radius:1.5rem;
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-avatar-inner img{
+  width:100%;height:100%;object-fit:cover;
+}
+.hero-body{max-width:900px}
+@keyframes fadeup{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  border:1px solid var(--border);
+  border-radius:2rem;
+  padding:0.4rem 1rem;
+  font-family:'DM Mono',monospace;
+  font-size:0.75rem;color:var(--accent);
+  margin-bottom:2rem;
+  animation:fadeup 1s 0.1s ease both;
+}
+.tag-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s infinite;display:inline-block}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+h1{
+  font-family:'Montserrat',sans-serif;
+  font-weight:900;
+  font-size:clamp(3rem,7vw,6rem);
+  line-height:1.0;
+  margin-bottom:1rem;
+  animation:fadeup 1s 0.2s ease both;
+  letter-spacing:-0.01em;
+}
+.typing-text{
+  display:inline-block;
+  overflow:hidden;
+  border-right:3px solid var(--accent);
+  white-space:nowrap;
+  animation:typing 2.5s steps(20,end) 0.3s forwards,blink 0.7s step-end 2.3s infinite;
+}
+@keyframes typing{
+  0%{width:0}
+  100%{width:10em}
+}
+@keyframes blink{
+  0%,50%{border-color:var(--accent)}
+  51%,100%{border-color:transparent}
+}
+.h1-dim{color:var(--text3)}
+.h1-accent{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-sub{
+  font-size:1.15rem;color:var(--text2);
+  max-width:600px;margin-bottom:3rem;
+  animation:fadeup 1s 0.3s ease both;
+}
+.hero-ctas{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  animation:fadeup 1s 0.4s ease both;
+}
+.btn{
+  padding:0.85rem 2rem;border-radius:0.5rem;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.9rem;font-weight:500;
+  text-decoration:none;cursor:pointer;
+  border:none;transition:all 0.3s;display:inline-flex;align-items:center;gap:0.5rem;
+  position:relative;overflow:hidden;
+}
+.btn::before{
+  content:'';position:absolute;top:50%;left:50%;
+  width:0;height:0;border-radius:50%;
+  background:rgba(255,255,255,0.5);
+  transform:translate(-50%,-50%);
+  transition:width 0.6s,height 0.6s;
+}
+.btn:active::before{width:300px;height:300px}
+.btn-primary{background:var(--accent);color:#050A14}
+.btn-primary:hover{background:#00ECFF;transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,255,0.3)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.hero-stats{
+  display:flex;gap:3rem;margin-top:4rem;
+  padding-top:3rem;border-top:1px solid var(--border);
+  animation:fadeup 1s 0.5s ease both;
+  flex-wrap:wrap;
+}
+.stat-n{
+  font-family:'Montserrat',sans-serif;
+  font-size:2rem;font-weight:800;
+  color:var(--accent);
+  counter-increment:stat-counter;
+  letter-spacing:-0.01em;
+}
+.stat-l{font-size:0.8rem;color:var(--text2);text-transform:uppercase;letter-spacing:0.1em;margin-top:0.25rem}
+.parallax-element{transition:transform 0.6s cubic-bezier(0.23,1,0.320,1)}
+.project-card:hover .project-image{transform:scale(1.05) translateY(-10px)}
+.ach-card:hover{box-shadow:0 25px 50px rgba(0,212,255,0.2)}
+section{padding:7rem 4rem}
+.section-tag{
+  font-family:'DM Mono',monospace;font-size:0.75rem;
+  color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;
+  margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;
+}
+.section-tag::before{content:'//'}
+h2{
+  font-family:'Montserrat',sans-serif;
+  font-weight:800;font-size:clamp(2rem,4vw,3rem);
+  margin-bottom:1.5rem;
+  letter-spacing:-0.01em;
+}
+#about{background:var(--bg2)}
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:3rem;
+  max-width:1100px;
+  margin:0 auto;
+}
+.about-header{
+  margin-bottom:1rem;
+}
+.about-avatar{
+  width:250px;height:250px;
+  border-radius:1.5rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  padding:3px;
+  opacity:0;transform:translateY(40px);
+  animation:fadeup 1s 0.2s ease both;
+}
+.about-avatar-inner{
+  width:100%;height:100%;
+  background:var(--bg2);
+  border-radius:1.5rem;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+.about-avatar-inner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 30%,rgba(0,212,255,0.2),transparent 50%);
+  animation:shine 3s infinite;
+}
+@keyframes shine{0%{transform:translate(0,0)}50%{transform:translate(20px,20px)}100%{transform:translate(0,0)}}
+.about-avatar-inner img{
+  width:80%;height:80%;object-fit:contain;position:relative;z-index:1;
+}
+.about-title-section h2{margin-bottom:0}
+.about-content{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:3rem;
+}
+.about-text p{color:var(--text2);margin-bottom:1.2rem;font-size:1.05rem}
+.about-highlights{display:flex;flex-direction:column;gap:1.2rem}
+.highlight-card{
+  background:rgba(14,26,40,0.5);
+  backdrop-filter:blur(10px);
+  border:1px solid var(--border);
+  border-radius:0.75rem;
+  padding:1.25rem 1.5rem;
+  display:flex;align-items:flex-start;gap:1rem;
+  transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;
+}
+.highlight-card:hover{border-color:var(--accent);transform:translateX(6px)}
+.highlight-icon{
+  font-size:1.3rem;flex-shrink:0;
+  width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+  background:var(--glow);border-radius:0.5rem;border:1px solid var(--border);
+}
+.highlight-t{font-weight:500;font-size:0.95rem;margin-bottom:0.2rem}
+.highlight-d{font-size:0.83rem;color:var(--text2)}
+#experience{background:var(--bg)}
+.exp-container{max-width:900px;margin:0 auto;position:relative;padding-left:1.5rem}
+.exp-container::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:2px;background:linear-gradient(to bottom,var(--accent),var(--accent2),transparent);
+}
+.exp-item{
+  display:grid;grid-template-columns:200px 1fr;
+  gap:2.5rem;padding:2.5rem 0;
+  border-bottom:1px solid var(--border);
+  opacity:0;transform:translateY(30px);
+  transition:opacity 0.6s ease,transform 0.6s ease;
+  position:relative;
+}
+.exp-item::before{
+  content:'';position:absolute;left:-1.65rem;top:2.5rem;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--accent);border:2px solid var(--bg);
+  box-shadow:0 0 15px rgba(0,212,255,0.4);
+}
+.exp-item.visible{opacity:1;transform:translateY(0)}
+.exp-left{text-align:right}
+.exp-period{
+  font-family:'DM Mono',monospace;
+  font-size:0.78rem;color:var(--accent);
+  line-height:1.4;
+}
+.exp-company{
+  font-size:0.82rem;color:var(--text3);
+  margin-top:0.4rem;text-transform:uppercase;letter-spacing:0.06em;
+}
+.exp-role{
+  font-family:'Montserrat',sans-serif;
+  font-weight:800;font-size:1.2rem;
+  margin-bottom:0.75rem;color:var(--text);
+  letter-spacing:-0.01em;
+}
+.exp-desc{color:var(--text2);font-size:0.92rem;line-height:1.7}
+.exp-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1rem}
+.tag{
+  font-family:'DM Mono',monospace;
+  font-size:0.72rem;padding:0.25rem 0.65rem;
+  border:1px solid var(--border);border-radius:0.3rem;
+  color:var(--text2);background:var(--glow);
+  transition:border-color 0.3s,color 0.3s;
+}
+.tag:hover{border-color:var(--accent);color:var(--accent)}
+#projects{background:var(--bg)}
+.projects-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:2rem;max-width:1200px;margin:0 auto;
+}
+.project-card{
+  background:rgba(14,26,40,0.6);
+  backdrop-filter:blur(10px);
+  border:1px solid var(--border);
+  border-radius:1.2rem;
+  overflow:hidden;
+  opacity:0;transform:translateY(40px);
+  transition:opacity 0.6s ease,transform 0.6s ease,border-color 0.3s,box-shadow 0.3s;
+  position:relative;
+  group:hover;
+}
+.project-card.visible{opacity:1;transform:translateY(0)}
+.project-card:hover{
+  border-color:var(--accent);
+  transform:translateY(-8px);
+  box-shadow:0 20px 60px rgba(0,212,255,0.25),inset 0 0 20px rgba(0,212,255,0.05);
+}
+.project-image{
+  width:100%;height:200px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:3rem;position:relative;overflow:hidden;
+}
+.project-image::before{
+  content:'';position:absolute;inset:0;
+  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0,rgba(255,255,255,.05) 10px,transparent 10px,transparent 20px);
+  animation:shimmer 3s infinite;
+}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.project-content{padding:2rem}
+.project-title{
+  font-family:'Montserrat',sans-serif;
+  font-weight:800;font-size:1.2rem;
+  margin-bottom:0.8rem;color:var(--text);
+  letter-spacing:-0.01em;
+}
+.project-desc{
+  font-size:0.9rem;color:var(--text2);
+  margin-bottom:1.5rem;line-height:1.6;
+}
+.project-stack{
+  display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem;
+}
+.project-stack .tag{font-size:0.7rem}
+.project-link{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  color:var(--accent);text-decoration:none;
+  font-size:0.9rem;font-weight:500;
+  transition:all 0.3s;
+  position:relative;
+}
+.project-link::before{
+  content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;
+  background:var(--accent);transition:width 0.3s;
+}
+.project-link:hover::before{width:100%}
+.project-link:hover{gap:1rem;color:#00ECFF}
+.project-link::after{content:'→'}
+#achievements{background:var(--bg2)}
+.ach-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:1.5rem;max-width:1100px;margin:0 auto;
+}
+.ach-card{
+  background:rgba(14,26,40,0.5);
+  backdrop-filter:blur(10px);
+  border:1px solid var(--border);
+  border-radius:1rem;
+  padding:2rem;
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateY(30px);
+  transition:opacity 0.5s ease,transform 0.5s ease,border-color 0.3s,box-shadow 0.3s;
+}
+.ach-card.visible{opacity:1;transform:translateY(0)}
+.ach-card:hover{
+  border-color:var(--accent);
+  box-shadow:0 15px 50px rgba(0,212,255,0.2),inset 0 0 15px rgba(0,212,255,0.05);
+}
+.ach-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+.ach-card:hover::before{opacity:1}
+.ach-num{
+  font-family:'Montserrat',sans-serif;
+  font-size:2.8rem;font-weight:900;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1;margin-bottom:0.5rem;
+  letter-spacing:-0.01em;
+}
+.ach-title{
+  font-family:'Montserrat',sans-serif;
+  font-weight:700;font-size:1rem;
+  margin-bottom:0.5rem;
+  letter-spacing:-0.01em;
+}
+.ach-desc{font-size:0.85rem;color:var(--text2)}
+#skills{background:var(--bg)}
+.skills-container{max-width:900px;margin:0 auto}
+.skill-category{margin-bottom:3rem}
+.skill-cat-title{
+  font-family:'DM Mono',monospace;
+  font-size:0.78rem;color:var(--accent2);
+  text-transform:uppercase;letter-spacing:0.12em;
+  margin-bottom:1.2rem;padding-bottom:0.5rem;
+  border-bottom:1px solid var(--border);
+}
+.skills-grid{display:flex;flex-wrap:wrap;gap:0.75rem}
+.skill-pill{
+  padding:0.55rem 1.1rem;
+  border:1px solid var(--border);
+  border-radius:2rem;
+  font-size:0.85rem;
+  color:var(--text2);
+  background:rgba(14,26,40,0.5);
+  backdrop-filter:blur(8px);
+  transition:all 0.4s ease;
+  cursor:default;
+  opacity:0;transform:scale(0.9);
+}
+.skill-pill.visible{opacity:1;transform:scale(1)}
+.skill-pill:hover{
+  border-color:var(--accent);color:var(--accent);
+  background:var(--glow);transform:translateY(-2px);
+}
+#contact{background:var(--bg2);text-align:center}
+.contact-inner{max-width:600px;margin:0 auto}
+.contact-inner p{color:var(--text2);margin-bottom:2.5rem;font-size:1.05rem}
+.contact-links{display:flex;flex-direction:column;gap:1rem;align-items:center}
+.contact-link{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 2rem;min-width:320px;
+  background:rgba(14,26,40,0.6);
+  backdrop-filter:blur(10px);
+  border:1px solid var(--border);
+  border-radius:0.75rem;color:var(--text);text-decoration:none;
+  transition:all 0.3s;font-size:0.92rem;
+}
+.contact-link:hover{
+  border-color:var(--accent);color:var(--accent);
+  transform:translateY(-2px);
+  box-shadow:0 15px 40px rgba(0,212,255,0.2),inset 0 0 15px rgba(0,212,255,0.05);
+}
+.contact-link-icon{
+  width:36px;height:36px;border-radius:0.4rem;
+  background:var(--glow);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+}
+footer{
+  background:var(--bg);
+  padding:2rem 4rem;text-align:center;
+  border-top:1px solid var(--border);
+  font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text3);
+}
+.scroll-progress{
+  position:fixed;top:0;left:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  z-index:200;transition:width 0.1s;width:0;
+}
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{gap:1rem;font-size:0.75rem}
+  section{padding:5rem 1.5rem}
+  #hero{padding:7rem 1.5rem 3rem}
+  .hero-header{grid-template-columns:1fr;gap:2rem}
+  .hero-avatar{width:150px;height:150px}
+  .about-header{grid-template-columns:1fr;gap:2rem}
+  .about-content{grid-template-columns:1fr;gap:2rem}
+  .about-avatar{width:200px;height:200px;margin:0 auto}
+  .exp-item{grid-template-columns:1fr;gap:0.5rem}
+  .exp-left{text-align:left}
+  .hero-stats{gap:2rem}
+  .projects-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="sp"></div>
+
+<nav>
+  <div class="nav-logo">AB.</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#achievements">Achievements</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="orb1 hero-orb"></div>
+  <div class="orb2 hero-orb"></div>
+  <div class="hero-content">
+    <div class="hero-header">
+      <div class="hero-avatar">
+        <div class="hero-avatar-inner">
+          <img src="images/profile.jpg" alt="Allan Bontempo" loading="lazy">
+        </div>
+      </div>
+      <div>
+        <h1>
+          <span class="h1-dim">Allan</span><br>
+          <span class="h1-accent typing-text">Bontempo</span>
+        </h1>
+      </div>
+    </div>
+    <div class="hero-body">
+      <div class="hero-tag"><span class="tag-dot"></span>Available for new challenges</div>
+      <p class="hero-sub">Software Architect specializing in cloud-native banking systems, microservices, and distributed architectures at enterprise scale.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn btn-primary">Get in touch →</a>
+        <a href="#experience" class="btn btn-outline">View experience</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-n">10M+</div>
+          <div class="stat-l">Users impacted</div>
+        </div>
+        <div>
+          <div class="stat-n">25</div>
+          <div class="stat-l">Microservices integrated</div>
+        </div>
+        <div>
+          <div class="stat-n">30%</div>
+          <div class="stat-l">Latency reduction</div>
+        </div>
+        <div>
+          <div class="stat-n">600K+</div>
+          <div class="stat-l">Monthly requests processed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-grid">
+    <div class="about-header">
+      <div class="section-tag">About me</div>
+      <h2>Building systems that <em>scale</em>.</h2>
+    </div>
+
+    <div class="about-content">
+      <div class="about-text">
+        <p>I'm a Software Architect based in Brasília with deep expertise in Java, Quarkus, Spring Boot, and Angular. I design cloud-native solutions for some of Brazil's most regulated and high-traffic environments — primarily in the banking sector.</p>
+        <p>My work spans from greenfield microservices to legacy modernization, always focusing on performance, observability, and security. I hold a bachelor's in Information Systems from Estácio and a postgraduate degree in Full Stack Development from PUC-RS.</p>
+        <p>Currently at Cast Group, allocated to Banco do Brasil, leading the modernization of the card embossing platform — one of the most complex integration challenges in the project.</p>
+      </div>
+      <div class="about-highlights">
+      <div class="highlight-card">
+        <div class="highlight-icon">☁️</div>
+        <div>
+          <div class="highlight-t">Cloud-Native Architecture</div>
+          <div class="highlight-d">OpenShift, Kubernetes, Docker — designing for resilience and horizontal scale in regulated environments.</div>
+        </div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">⚡</div>
+        <div>
+          <div class="highlight-t">Event-Driven Systems</div>
+          <div class="highlight-d">TIBCO EMS, async patterns, DDD — connecting distributed teams through decoupled integrations.</div>
+        </div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">🔐</div>
+        <div>
+          <div class="highlight-t">API Security</div>
+          <div class="highlight-d">OAuth2, OpenID Connect, JWT — securing enterprise APIs in compliance with strict banking regulations.</div>
+        </div>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">📊</div>
+        <div>
+          <div class="highlight-t">Observability</div>
+          <div class="highlight-d">Prometheus, Grafana, AppDynamics, distributed tracing — full visibility into production systems.</div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="companies" style="background:var(--bg);padding:4rem 4rem;text-align:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <p style="color:var(--text2);font-size:0.85rem;margin-bottom:2rem;text-transform:uppercase;letter-spacing:0.1em">Worked with</p>
+  <div style="display:flex;justify-content:center;align-items:center;gap:4rem;flex-wrap:wrap;max-width:1100px;margin:0 auto">
+    <div style="opacity:0;animation:fadeup 1s 0.1s ease both">
+      <div style="font-weight:700;color:var(--text);margin-bottom:0.5rem">IBM</div>
+      <div style="font-size:0.8rem;color:var(--text2)">2022-2025</div>
+    </div>
+    <div style="opacity:0;animation:fadeup 1s 0.2s ease both">
+      <div style="font-weight:700;color:var(--text);margin-bottom:0.5rem">Cast Group</div>
+      <div style="font-size:0.8rem;color:var(--text2)">2025-Present</div>
+    </div>
+    <div style="opacity:0;animation:fadeup 1s 0.3s ease both">
+      <div style="font-weight:700;color:var(--text);margin-bottom:0.5rem">Presidency of the Republic</div>
+      <div style="font-size:0.8rem;color:var(--text2)">2021-Present</div>
+    </div>
+    <div style="opacity:0;animation:fadeup 1s 0.4s ease both">
+      <div style="font-weight:700;color:var(--text);margin-bottom:0.5rem">Fóton Informática</div>
+      <div style="font-size:0.8rem;color:var(--text2)">2021-2022</div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="projects-grid" style="max-width:1200px;margin:0 auto">
+    <div style="grid-column:1/-1">
+      <div class="section-tag">Featured work</div>
+      <h2>Recent projects</h2>
+    </div>
+
+    <div class="project-card">
+      <div class="project-image">🏛️</div>
+      <div class="project-content">
+        <div class="project-title">Card Embossing Platform</div>
+        <div class="project-desc">Modernized legacy COBOL embossing system into cloud-native microservices. Processing 600K+ requests and 360K card issuances monthly.</div>
+        <div class="project-stack">
+          <span class="tag">Quarkus</span><span class="tag">Kubernetes</span>
+          <span class="tag">TIBCO EMS</span><span class="tag">DDD</span>
+        </div>
+        <a href="#" class="project-link">View architecture</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-image">🔗</div>
+      <div class="project-content">
+        <div class="project-title">Microservices Integration Platform</div>
+        <div class="project-desc">Integrated 25 microservices into Banco do Brasil's core banking platform. Achieved 30% latency reduction through architecture optimization.</div>
+        <div class="project-stack">
+          <span class="tag">Java</span><span class="tag">Spring Boot</span>
+          <span class="tag">OpenShift</span><span class="tag">Event-Driven</span>
+        </div>
+        <a href="#" class="project-link">Read case study</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-image">🔐</div>
+      <div class="project-content">
+        <div class="project-title">Government Security Platform</div>
+        <div class="project-desc">Secure, high-availability system serving 8,000+ government employees. Full-stack development with automated testing and compliance requirements.</div>
+        <div class="project-stack">
+          <span class="tag">Angular</span><span class="tag">Python</span>
+          <span class="tag">PostgreSQL</span><span class="tag">OAuth2</span>
+        </div>
+        <a href="#" class="project-link">View details</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-image">📧</div>
+      <div class="project-content">
+        <div class="project-title">Supreme Court Mail System</div>
+        <div class="project-desc">Critical government system managing mail operations for Brazil's Supreme Federal Court. Full-stack development with Java backend and Angular frontend.</div>
+        <div class="project-stack">
+          <span class="tag">Java</span><span class="tag">Angular</span>
+          <span class="tag">REST APIs</span><span class="tag">JBoss</span>
+        </div>
+        <a href="#" class="project-link">Explore project</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="exp-container">
+    <div class="section-tag">Experience</div>
+    <h2>Career timeline</h2>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">03/2025<br>Present</div>
+        <div class="exp-company">Cast Group</div>
+      </div>
+      <div>
+        <div class="exp-role">Software Architect</div>
+        <div class="exp-desc">Allocated to Banco do Brasil, leading modernization of the card embossing platform. One of the most complex integrations in the project — requiring alignment with customized, tracking, and non-customized teams simultaneously.</div>
+        <div class="exp-tags">
+          <span class="tag">Quarkus</span><span class="tag">Angular</span><span class="tag">TIBCO EMS</span>
+          <span class="tag">WebLogic</span><span class="tag">OpenShift</span><span class="tag">Kubernetes</span>
+          <span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">AppDynamics</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">08/2021<br>Present</div>
+        <div class="exp-company">Presidency of the Republic</div>
+      </div>
+      <div>
+        <div class="exp-role">Web Developer</div>
+        <div class="exp-desc">Developed secure, high-availability systems for the federal government. Built full-stack applications across multiple platforms, implemented automated testing strategies, and delivered software used by 8,000 employees.</div>
+        <div class="exp-tags">
+          <span class="tag">Angular</span><span class="tag">Python</span><span class="tag">WordPress</span>
+          <span class="tag">Gatsby</span><span class="tag">Karma</span><span class="tag">Jasmine</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">09/2023<br>03/2025</div>
+        <div class="exp-company">IBM</div>
+      </div>
+      <div>
+        <div class="exp-role">Software Architect · Tech Lead</div>
+        <div class="exp-desc">Led cross-functional team of 6 developers + 1 QA on Banco do Brasil's Architecture 3.0 initiative. Designed greenfield cloud-native solutions and implemented event-driven patterns across a large-scale banking environment.</div>
+        <div class="exp-tags">
+          <span class="tag">Java</span><span class="tag">Quarkus</span><span class="tag">Docker</span>
+          <span class="tag">Kubernetes</span><span class="tag">OpenShift</span><span class="tag">CI/CD</span><span class="tag">DDD</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">06/2022<br>09/2023</div>
+        <div class="exp-company">IBM</div>
+      </div>
+      <div>
+        <div class="exp-role">Full Stack Developer</div>
+        <div class="exp-desc">Developed internal systems for Banco do Brasil using Java and Angular. Built and integrated RESTful APIs, collaborated with designers via Figma, and contributed to scalable enterprise applications.</div>
+        <div class="exp-tags">
+          <span class="tag">Java</span><span class="tag">Angular</span><span class="tag">REST APIs</span><span class="tag">Figma</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">06/2021<br>06/2022</div>
+        <div class="exp-company">Fóton Informática</div>
+      </div>
+      <div>
+        <div class="exp-role">Full Stack Developer</div>
+        <div class="exp-desc">Developed and maintained enterprise web applications with Java Spring and Angular. Managed JBoss deployments, conducted code reviews, and provided technical support for production systems.</div>
+        <div class="exp-tags">
+          <span class="tag">Java Spring</span><span class="tag">Angular</span><span class="tag">JBoss</span><span class="tag">REST APIs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">10/2020<br>10/2021</div>
+        <div class="exp-company">Supreme Federal Court</div>
+      </div>
+      <div>
+        <div class="exp-role">Developer Intern</div>
+        <div class="exp-desc">Contributed to the development of a mail system for Brazil's Supreme Federal Court, leveraging Java and Angular to design and implement key features of this critical government system.</div>
+        <div class="exp-tags">
+          <span class="tag">Java</span><span class="tag">Angular</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="achievements">
+  <div class="section-tag" style="max-width:1100px;margin:0 auto 1rem">Key achievements</div>
+  <h2 style="max-width:1100px;margin:0 auto 3rem">Impact at scale</h2>
+  <div class="ach-grid">
+    <div class="ach-card">
+      <div class="ach-num">10M+</div>
+      <div class="ach-title">Users served</div>
+      <div class="ach-desc">Led a team to develop a product actively used by over 10 million Banco do Brasil customers, one of the largest banking institutions in Latin America.</div>
+    </div>
+    <div class="ach-card">
+      <div class="ach-num">30%</div>
+      <div class="ach-title">Latency reduction</div>
+      <div class="ach-desc">Reduced system latency by 30% through strategic middleware tuning and architecture restructuring at enterprise scale.</div>
+    </div>
+    <div class="ach-card">
+      <div class="ach-num">25</div>
+      <div class="ach-title">Microservices integrated</div>
+      <div class="ach-desc">Successfully integrated 25 microservices into Banco do Brasil's core platform, significantly boosting overall transaction handling capacity.</div>
+    </div>
+    <div class="ach-card">
+      <div class="ach-num">600K</div>
+      <div class="ach-title">Requests/month processed</div>
+      <div class="ach-desc">Modernized a legacy COBOL embossing system into a cloud-native microservices architecture processing 600K requests and 360K card issuances monthly.</div>
+    </div>
+    <div class="ach-card">
+      <div class="ach-num">8K</div>
+      <div class="ach-title">Government employees impacted</div>
+      <div class="ach-desc">Developed secure software improving operational efficiency for 8,000 Presidency of the Republic employees across Brazil.</div>
+    </div>
+    <div class="ach-card">
+      <div class="ach-num">AWS</div>
+      <div class="ach-title">Cloud Practitioner certified</div>
+      <div class="ach-desc">AWS Certified Cloud Practitioner — validating cloud architecture knowledge and best practices for enterprise-scale deployments.</div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="skills-container">
+    <div class="section-tag">Technical skills</div>
+    <h2>Tech stack</h2>
+    <div class="skill-category">
+      <div class="skill-cat-title">Backend</div>
+      <div class="skills-grid">
+        <span class="skill-pill">Java</span><span class="skill-pill">Quarkus</span>
+        <span class="skill-pill">Spring Boot</span><span class="skill-pill">Python</span>
+        <span class="skill-pill">REST APIs</span><span class="skill-pill">Event-Driven Architecture</span>
+        <span class="skill-pill">TIBCO EMS</span><span class="skill-pill">Kafka</span><span class="skill-pill">RabbitMQ</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Frontend</div>
+      <div class="skills-grid">
+        <span class="skill-pill">Angular</span><span class="skill-pill">TypeScript</span>
+        <span class="skill-pill">JavaScript</span><span class="skill-pill">React</span><span class="skill-pill">Gatsby</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Cloud & Infrastructure</div>
+      <div class="skills-grid">
+        <span class="skill-pill">OpenShift</span><span class="skill-pill">Kubernetes</span>
+        <span class="skill-pill">Docker</span><span class="skill-pill">AWS</span>
+        <span class="skill-pill">Jenkins</span><span class="skill-pill">CI/CD</span>
+        <span class="skill-pill">WebLogic</span><span class="skill-pill">JBoss</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Observability & Security</div>
+      <div class="skills-grid">
+        <span class="skill-pill">Prometheus</span><span class="skill-pill">Grafana</span>
+        <span class="skill-pill">AppDynamics</span><span class="skill-pill">OAuth2</span>
+        <span class="skill-pill">OpenID Connect</span><span class="skill-pill">JWT</span>
+        <span class="skill-pill">Distributed Tracing</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Data & Methodology</div>
+      <div class="skills-grid">
+        <span class="skill-pill">Oracle DB</span><span class="skill-pill">PostgreSQL</span>
+        <span class="skill-pill">SQL</span><span class="skill-pill">DDD</span>
+        <span class="skill-pill">Microservices</span><span class="skill-pill">Agile</span><span class="skill-pill">Figma</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-tag" style="justify-content:center">Contact</div>
+    <h2>Let's work together</h2>
+    <p>I'm open to new opportunities in software architecture, cloud engineering, and enterprise systems design. Feel free to reach out.</p>
+    <div class="contact-links">
+      <a href="mailto:allanbt@hotmail.com" class="contact-link">
+        <div class="contact-link-icon">✉️</div>
+        <span>allanbt@hotmail.com</span>
+      </a>
+      <a href="https://www.linkedin.com/in/allan-bontempo/" target="_blank" class="contact-link">
+        <div class="contact-link-icon" style="font-family:sans-serif;font-weight:700;font-size:0.85rem;color:var(--accent)">in</div>
+        <span>linkedin.com/in/allan-bontempo</span>
+      </a>
+      <a href="#" class="contact-link">
+        <div class="contact-link-icon">📍</div>
+        <span>Brasília, Federal District — Brazil</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span style="color:var(--accent)">Allan Bontempo Taveira</span> &nbsp;·&nbsp; Software Architect &nbsp;·&nbsp; Brasília, BR &nbsp;·&nbsp; 2025
+</footer>
+
+<script>
+// Scroll progress bar
+const sp = document.getElementById('sp');
+window.addEventListener('scroll', () => {
+  const t = document.documentElement.scrollTop;
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  sp.style.width = (t / h * 100) + '%';
+});
+
+// Parallax effect on mouse move
+document.addEventListener('mousemove', e => {
+  const orbs = document.querySelectorAll('.hero-orb');
+  const x = e.clientX / window.innerWidth;
+  const y = e.clientY / window.innerHeight;
+  orbs.forEach((orb, i) => {
+    const offset = (i + 1) * 20;
+    orb.style.transform = `translate(${x * offset}px, ${y * offset}px)`;
+  });
+});
+
+// Intersection Observer for scroll animations
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      if (e.target.classList.contains('skill-pill')) {
+        const pills = e.target.closest('.skills-grid').querySelectorAll('.skill-pill');
+        pills.forEach((p, i) => setTimeout(() => p.classList.add('visible'), i * 50));
+      } else if (e.target.classList.contains('stat-n')) {
+        animateCounter(e.target);
+      } else {
+        e.target.classList.add('visible');
+      }
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.exp-item, .ach-card, .project-card, .stat-n').forEach(el => io.observe(el));
+document.querySelectorAll('.skills-grid').forEach(g => {
+  const first = g.querySelector('.skill-pill');
+  if (first) io.observe(first);
+});
+
+// Counter animation
+function animateCounter(el) {
+  const originalText = el.textContent.trim();
+  const hasSuffix = originalText.includes('+') || originalText.includes('M') || originalText.includes('K') || originalText.includes('%');
+  const numMatch = originalText.match(/[\d.]+/);
+
+  if (!numMatch) return;
+
+  const finalValue = parseFloat(numMatch[0]);
+  let current = 0;
+  const start = Date.now();
+  const duration = 1500;
+
+  function update() {
+    const elapsed = Date.now() - start;
+    const progress = Math.min(elapsed / duration, 1);
+    current = Math.floor(finalValue * progress);
+
+    let display = current.toString();
+    if (originalText.includes('M')) display += 'M';
+    if (originalText.includes('K')) display += 'K';
+    if (hasSuffix && originalText.includes('+')) display += '+';
+    if (originalText.includes('%')) display += '%';
+
+    el.textContent = display;
+
+    if (progress < 1) requestAnimationFrame(update);
+  }
+
+  update();
+}
+
+// Smooth scroll behavior
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// Add glow effect on mouse move for cards
+document.querySelectorAll('.project-card, .ach-card, .highlight-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+  });
+});
+</script>
+</body>
+</html>
