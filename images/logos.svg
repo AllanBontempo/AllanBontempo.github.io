@@ -1,0 +1,31 @@
+<svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- IBM Logo -->
+  <g id="ibm">
+    <rect x="10" y="20" width="10" height="60" fill="#0F62FE"/>
+    <rect x="25" y="20" width="10" height="60" fill="#0F62FE"/>
+    <rect x="40" y="20" width="10" height="60" fill="#0F62FE"/>
+    <text x="10" y="95" font-size="12" fill="#E8EDF5" font-weight="bold">IBM</text>
+  </g>
+
+  <!-- Cast Group Logo -->
+  <g id="cast">
+    <circle cx="110" cy="50" r="25" fill="none" stroke="#00D4FF" stroke-width="2"/>
+    <path d="M95 50 L125 50 M110 35 L110 65" stroke="#00D4FF" stroke-width="2"/>
+    <text x="95" y="95" font-size="12" fill="#E8EDF5" font-weight="bold">CAST</text>
+  </g>
+
+  <!-- Presidência Logo -->
+  <g id="presidency">
+    <rect x="210" y="25" width="40" height="50" fill="#00D4FF" opacity="0.3" rx="2"/>
+    <circle cx="230" cy="45" r="12" fill="#00D4FF"/>
+    <path d="M225 55 L235 55 M230 50 L230 60" stroke="#00D4FF" stroke-width="1.5"/>
+    <text x="210" y="95" font-size="10" fill="#E8EDF5" font-weight="bold" text-anchor="middle">Presidência</text>
+  </g>
+
+  <!-- AWS Logo -->
+  <g id="aws">
+    <path d="M330 30 L350 50 L330 70 M350 50 L370 50" fill="none" stroke="#00D4FF" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="340" cy="50" r="3" fill="#00D4FF"/>
+    <text x="330" y="95" font-size="12" fill="#E8EDF5" font-weight="bold">AWS</text>
+  </g>
+</svg>
